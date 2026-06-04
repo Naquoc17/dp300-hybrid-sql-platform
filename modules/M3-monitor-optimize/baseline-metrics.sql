@@ -2,8 +2,8 @@
 -- Module: M3-monitor-optimize
 
 -- 1. Resource history baseline (last ~1 hour, 15-sec snapshots)
-FROM sys.dm_db_resource_stats
 SELECT end_time, avg_cpu_percent, avg_data_io_percent, avg_log_write_percent
+FROM sys.dm_db_resource_stats
 ORDER BY end_time DESC;
 
 -- 2. Live Activity - what is running RIGHT NOW
@@ -30,6 +30,4 @@ WAITFOR DELAY '00:00:03';
 --    Extended Events -> Sessions        -> LongQueries ->
 --    right-click     -> View Target Data
 
--- 7. Cleanup
-ALTER EVENT SESSION [LongQueries] ON DATABASE STATE = STOP;
-DROP EVENT SESSION [LongQueries] ON DATABASE;
+-- 7. Cleanup — see cleanup-xe-sessions.sql
