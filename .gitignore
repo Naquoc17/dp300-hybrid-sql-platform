@@ -1,0 +1,34 @@
+# Secrets / local config
+.env
+*.env
+!.env.example
+*.publishsettings
+
+# Credentials and keys
+*.pfx
+*.cer
+*.key
+appsettings.local.json
+
+# SQL local artifacts
+*.bak
+*.bacpac
+*.dacpac
+*.mdf
+*.ldf
+*.ndf
+*.trn
+
+# Bicep / ARM build output
+*.arm.json
+.bicep/
+
+# Azure CLI / tooling
+.azure/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+*.swp
+.vscode/
+.idea/
