@@ -10,24 +10,7 @@ ORDER BY end_time DESC;
 SELECT session_id, status, command, blocking_session_id, wait_type, cpu_time
 FROM sys.dm_exec_requests;
 
--- 3. Extended Event session - create + start
---    Captures batches taking longer than 2 seconds
-CREATE EVENT SESSION [LongQueries] ON DATABASE
-ADD EVENT sqlserver.sql_batch_completed
-  (WHERE duration > 2000000)
-ADD TARGET package0.ring_buffer;
-
-ALTER EVENT SESSION [LongQueries] ON DATABASE STATE = START;
-
--- 4. Verify session is running
-SELECT name FROM sys.dm_xe_database_session;
-
--- 5. Trigger a slow batch to test the trap (3s > 2s filter)
-WAITFOR DELAY '00:00:03';
-
--- 6. View captured events (GUI - no SQL needed)
---    Object Explorer -> dp300-sqldb-lab -> Management ->
---    Extended Events -> Sessions        -> LongQueries ->
---    right-click     -> View Target Data
-
--- 7. Cleanup — see cleanup-xe-sessions.sql
+-- 3. Extended Events for this module now live in xevents-session.sql.
+--    Extracted 2026-09-02: a baseline script should contain only baseline
+--    measurement. The XE block here also used sys.dm_xe_database_session
+--    (singular), which does not exist - it would have failed with Msg 208.
